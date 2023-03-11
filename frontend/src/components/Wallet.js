@@ -4,6 +4,11 @@ export function Wallet() {
     const [userName, setUserName] = useState("");
     const [balance, setbalance] = useState("");
 
+
+   
+       
+    
+
     const formHandler = async (ev) => {
         ev.preventDefault();
         if (userName === '' || balance === '') {
@@ -18,7 +23,8 @@ export function Wallet() {
                 body: JSON.stringify({ name: userName, balance })
             });
             const content = await rawResponse.json();
-            console.log(content)
+           // localStorage.setItem("walletId", JSON.stringify(value));
+           localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
             setUserName('')
             setbalance('')
         }
@@ -37,7 +43,7 @@ export function Wallet() {
                                     value={userName} />
                             </div>
                             <div className="form-group">
-                                <input type="number" className="form-control form-control-lg" placeholder="Balance" name='balance' onChange={ev => { setbalance(ev.target.value) }}
+                                <input type="number" className="form-control form-control-lg" style={{ margin: '1vw' }} placeholder="Balance" name='balance' onChange={ev => { setbalance(ev.target.value) }}
                                     value={balance} />
                             </div>
                             <input type="submit" className="btn btn-primary btn-block mt-4" value="Create" />

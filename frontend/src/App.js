@@ -5,7 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Welcome from './components/Welcome';
 import Dashboard from './components/dashboard/Dashboard';
 import {Wallet} from './components/Wallet';
-import TransactionList from './components/TransactionList'
+import TransactionList from './components/TransactionList';
+import Transaction from './components/Transaction'
 import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom'
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dashboard" exact element={<Dashboard />} />
         <Route path="/wallet" exact element={<Wallet />} />
         <Route path="/transactions" exact element={<TransactionList />} />
+        <Route path="/transaction" exact element={<Transaction />} />
       </Routes>
     </BrowserRouter>
   );
