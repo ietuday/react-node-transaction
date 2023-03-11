@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-
+import {Link} from 'react-router-dom';
 export default function TransactionList() {
   const [transactionList, setTransactionList] = useState([]);
   const [transactionCount, setTransactionCount] = useState(0);
+  const [pageNumber, setpageNumber] = useState(1);
   useEffect(() => {
     loadDataOnlyOnce();
   }, []);
@@ -10,7 +11,7 @@ export default function TransactionList() {
 
   const loadDataOnlyOnce = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}`, {
+    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=0&limit=10`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -34,17 +35,51 @@ export default function TransactionList() {
   }
 
 
+ const handleNextClick = async () => {
+    console.log("Next");
+    if (pageNumber + 1 > Math.ceil(transactionCount / 10)) {
+    }
+    else {
+      const wallet = JSON.parse(localStorage.getItem("walletId"));
+      const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${pageNumber*10}&limit=10`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+      const content = await rawResponse.json();
+      console.log("contenttt", content)
+        setTransactionList(content.transactionList)
+        setpageNumber(pageNumber + 1)
+    }
+}
 
+const handlePrevClick = async () => {
+  console.log("Previous");
 
+  const wallet = JSON.parse(localStorage.getItem("walletId"));
+  const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${(pageNumber-1)*10}&limit=10`, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+  const content = await rawResponse.json();
+  console.log("contenttt", content)
+    setTransactionList(content.transactionList)
+    setpageNumber(pageNumber - 1)
 
+}
   return (
     <div>    <div className="container">
-      <a href="dashboard.html" className="btn btn-default btn-lg mb-3">
+      <Link to="/welcome" className="btn btn-default btn-lg mb-3">
         Back
-      </a>
-      <a href="newtransactionForm.html" className="btn btn-info btn-lg mb-3">
+      </Link>
+      <Link to="/transaction" className="btn btn-info btn-lg mb-3">
         <i className="fas fa-plus-circle"> Record new Transaction</i>
-      </a>
+      </Link>
       <br />
       <div className="card text-center">
         <div className="card-header bg-success text-white">
@@ -79,7 +114,10 @@ export default function TransactionList() {
 
         </tbody>
       </table>
-
+      <div className="container d-flex justify-content-between">
+    <button type="button" class="btn btn-dark" onClick={handlePrevClick}> &larr; Previous</button>
+    <button type="button" class="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
+</div>
       {/* { <!-- Transactions ENDS HERE --> } */}
     </div></div>
   )
