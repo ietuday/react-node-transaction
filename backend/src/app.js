@@ -34,14 +34,6 @@ app.use(passport.authenticate('session'));
 app.use(cors())
 // express routes that exist
 app.get('/', (req,res) => res.status(200).send("welcome to the todo app"));
-app.use('/add', require('./routes/add'));
-app.use('/remove', require('./routes/remove'));
-app.use('/edit', require('./routes/edit'));
-app.use('/', require('./routes/auth'));
-app.use('/', require('./routes/index'));
-app.use('/get', require('./routes/tasks'));
-app.use('/otp', require('./routes/validate.otp'));
-app.use('/sort', require('./routes/sort.task'));
 /**
  * Wallet App
  * 

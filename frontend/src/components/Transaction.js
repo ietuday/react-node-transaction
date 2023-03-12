@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 
 import ReactSwitch from 'react-switch';
 
 export default function Transaction() {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [amount, setUserAmount] = useState("");
     const [description, setDescription] = useState("");
     const [disableBalance, setBalance] = useState(false);
@@ -57,12 +57,14 @@ export default function Transaction() {
                 setUserAmount('')
                 setDescription('')
                 setWalletBalance(content.trans[0].balance.$numberDecimal)
-                //navigate('/transactions', { replace: true });
+                navigate('/transactions', { replace: true });
             }else{
+                setUserAmount('')
+                setDescription('')
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: 'Something went wrong!',
+                    text: rawResponse.message,
                     footer: '<a href="">Why do I have this issue?</a>'
                   })
             }

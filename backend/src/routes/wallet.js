@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 // route for when submits new todo item
 router.post('/setup', async function (req, res) {
+    console.log("assssssssss", req.body)
     // create wallet model with data passed from request and save to databse
     if(!req.body.balance) return res.status(404).json({success:false,message:"balance is required"});
     if(!req.body.name) return res.status(404).json({success:false,message:"name is required"});

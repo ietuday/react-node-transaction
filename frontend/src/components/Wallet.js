@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom';
+
+
+
 export function Wallet() {
+    const navigate = useNavigate();
     const [userName, setUserName] = useState("");
-    const [balance, setbalance] = useState("");
-
-
-   
-       
-    
-
-    const formHandler = async (ev) => {
+    const [balance, setbalance] = useState("");     
+     const formHandler = async (ev) => {
         ev.preventDefault();
         if (userName === '' || balance === '') {
             alert('Please fill in all fields')
@@ -23,17 +22,24 @@ export function Wallet() {
                 },
                 body: JSON.stringify({ name: userName, balance })
             });
+            console.log("rawResponse",rawResponse)
             const content = await rawResponse.json();
+            console.log("constent",rawResponse)
+            //console.log("constent",content)
            // localStorage.setItem("walletId", JSON.stringify(value));
-           if (content.status === 200 && Array.isArray(content.transactionList) && content.transactionList.length) {
-            localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
+           if (rawResponse.status === 200) {
+            
             setUserName('')
             setbalance('')
+            console.log("before nevigation")
+            navigate('/transactions', { replace: true });
            }else{
+            setUserName('')
+            setbalance('')
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Something went wrong!',
+                text: 'Wallet Name already exist',
                 footer: '<a href="">Why do I have this issue?</a>'
               })
            }
