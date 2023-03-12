@@ -137,23 +137,8 @@ export default function TransactionList() {
 
 
 
-  const downloadCSV = async () => {
-    console.log("Previous");
-
-    const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-    const content = await rawResponse.json();
-    console.log("contenttt", content)
-    setTransactionList(content.transactionList)
-    setpageNumber(pageNumber - 1)
-
-  }
+  
+  
   return (
     <div>    <div className="container">
       
