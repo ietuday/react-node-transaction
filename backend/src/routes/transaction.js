@@ -22,7 +22,7 @@ router.post('/transact/:walletId', async function (req, res) {
             type: parseInt(req.body.amount) > 0 ? 'CREDIT' : 'DEBIT',
         }
         if(parseInt(transaction.balance) < 0){
-            return res.status(404).json({ success: false, message: "You don't have enough balance to complete transaction"})
+            return res.status(404).send({ success: false, message: "You don't have enough balance to complete transaction"})
         }
         wallet.balance = transaction.balance
         wallet.save({session})

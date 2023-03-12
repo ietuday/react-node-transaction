@@ -42,7 +42,7 @@ export default function Transaction() {
                 amountData = -Math.abs(amount)
             }
             console.log(amount, description)
-            const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transact/${wallet}`, {
+            const rawResponse = await fetch(`http://localhost:5000/transact/${wallet}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
