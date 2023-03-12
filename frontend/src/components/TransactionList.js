@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 export default function TransactionList() {
@@ -10,13 +10,12 @@ export default function TransactionList() {
   const [order, setOrder] = useState("ASC");
   const [nextPage, setNextPage] = useState(false);
   const [balance, setBalance] = useState(0);
- 
+
   useEffect(() => {
     loadDataOnlyOnce();
     loadTransactionList()
   }, []);
 
-console.log("pageNumber",pageNumber)
   const loadDataOnlyOnce = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
     const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=0&limit=10`, {
@@ -27,20 +26,18 @@ console.log("pageNumber",pageNumber)
       }
     });
     const content = await rawResponse.json();
-    console.log("contenttt", content)
     if (rawResponse.status === 200 && Array.isArray(content.transactionList) && content.transactionList.length) {
-      console.log(content)
       setTransactionList(content.transactionList)
       setTransactionCount(content.transactionCount)
 
-    } else{
+    } else {
       Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href="">Why do I have this issue?</a>'
-        })
-  }
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Something went wrong!',
+        footer: '<a href="">Why do I have this issue?</a>'
+      })
+    }
   }
   const loadTransactionList = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
@@ -52,28 +49,27 @@ console.log("pageNumber",pageNumber)
       }
     });
     const content = await rawResponse.json();
-    console.log("contenttt", content)
     if (rawResponse.status === 200 && Array.isArray(content.transactionList) && content.transactionList.length) {
-      console.log("full list",content)
-    const transactionList =  content.transactionList.map((item) => {
-         return { amount :item.amount.$numberDecimal, balance : item.balance.$numberDecimal,
-          createdAt :item. createdAt,  description:item.description, type :item.type }
-          })
-          setBalance(transactionList[0].balance)
+      const transactionList = content.transactionList.map((item) => {
+        return {
+          amount: item.amount.$numberDecimal, balance: item.balance.$numberDecimal,
+          createdAt: item.createdAt, description: item.description, type: item.type, wallet: item.wallet
+        }
+      })
+      setBalance(transactionList[0].wallet.balance.$numberDecimal)
       setFullTransactionList(transactionList)
-      
+
 
     }
   }
 
 
   const handleNextClick = async () => {
-    console.log("Next");
     if (pageNumber + 1 > Math.ceil(transactionCount / 10)) {
-      
+
     }
     else {
-     
+
       const wallet = JSON.parse(localStorage.getItem("walletId"));
       const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
         method: 'GET',
@@ -83,17 +79,14 @@ console.log("pageNumber",pageNumber)
         }
       });
       const content = await rawResponse.json();
-      console.log("contenttt", content)
       setTransactionList(content.transactionList)
       setpageNumber(pageNumber + 1)
-      if(Math.ceil(transactionCount / ((pageNumber + 1) * 10)) < 1)setNextPage(true)
-      
+      if (Math.ceil(transactionCount / ((pageNumber + 1) * 10)) < 1) setNextPage(true)
+
     }
   }
 
   const sorting = async (col) => {
-    console.log("inside sorting")
-    console.log("coll", col)
     if (order === 'ASC') {
       const sorted = [...transactionList].sort((a, b) =>
         a[col].$numberDecimal - b[col].$numberDecimal
@@ -110,17 +103,15 @@ console.log("pageNumber",pageNumber)
   }
 
   const dateSort = async (col) => {
-    console.log("inside sorting")
-    console.log("coll", col)
     if (order === 'ASC') {
       const sorted = [...transactionList].sort((a, b) =>
-      new Date(a[col]) - new Date(b[col])
+        new Date(a[col]) - new Date(b[col])
       );
       setTransactionList(sorted)
       setOrder("DSEC")
     } else {
       const sorted = [...transactionList].sort((a, b) =>
-      new Date(b[col]) - new Date(a[col])
+        new Date(b[col]) - new Date(a[col])
       );
       setTransactionList(sorted)
       setOrder("ASC")
@@ -128,7 +119,6 @@ console.log("pageNumber",pageNumber)
   }
 
   const handlePrevClick = async () => {
-    console.log("Previous");
     setNextPage(false)
     const wallet = JSON.parse(localStorage.getItem("walletId"));
     const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
@@ -139,7 +129,6 @@ console.log("pageNumber",pageNumber)
       }
     });
     const content = await rawResponse.json();
-    console.log("contenttt", content)
     setTransactionList(content.transactionList)
     setpageNumber(pageNumber - 1)
 
@@ -147,19 +136,19 @@ console.log("pageNumber",pageNumber)
 
 
 
-  
-  
+
+
   return (
-   
+
     <div>    <div className="container">
       <div className="container d-flex justify-content-between">
-      <Link to="/welcome" className="btn btn-default btn-lg mb-3" style={{'margin': '1vw'}}>
-        Back
-      </Link>
-      <Link to="/transaction" className="btn btn-info btn-lg mb-3" style={{'margin': '1vw'}}>
-        <i className="fas fa-plus-circle"> Record new Transaction</i>
-      </Link>
-      <button type="button" className="btn btn-info btn-lg mb-3" style={{'margin': '1vw'}}><CSVLink data={fullTransactionList}  filename={`Transactions.csv`}>Download</CSVLink></button>
+        <Link to="/welcome" className="btn btn-default btn-lg mb-3" style={{ 'margin': '1vw' }}>
+          Back
+        </Link>
+        <Link to="/transaction" className="btn btn-info btn-lg mb-3" style={{ 'margin': '1vw' }}>
+          <i className="fas fa-plus-circle"> Record new Transaction</i>
+        </Link>
+        <button type="button" className="btn btn-info btn-lg mb-3" style={{ 'margin': '1vw' }}><CSVLink data={fullTransactionList} filename={`Transactions.csv`}>Download</CSVLink></button>
       </div>
       <br />
       <div className="card text-center">
@@ -196,8 +185,8 @@ console.log("pageNumber",pageNumber)
         </tbody>
       </table>
       <div className="container d-flex justify-content-between">
-        
-        <button disabled={pageNumber<=1} type="button" className="btn btn-dark" onClick={handlePrevClick}> &larr; Previous</button>
+
+        <button disabled={pageNumber <= 1} type="button" className="btn btn-dark" onClick={handlePrevClick}> &larr; Previous</button>
         <button disabled={nextPage} type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
       </div>
       {/* { <!-- Transactions ENDS HERE --> } */}

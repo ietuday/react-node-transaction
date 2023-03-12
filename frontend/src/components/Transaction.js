@@ -41,7 +41,6 @@ export default function Transaction() {
             if (credit === 'Debit') {
                 amountData = -Math.abs(amount)
             }
-            console.log(amount, description)
             const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transact/${wallet}`, {
                 method: 'POST',
                 headers: {
@@ -52,7 +51,6 @@ export default function Transaction() {
             });
             const content = await rawResponse.json();
             if (rawResponse.status === 200 && Array.isArray(content.trans) && content.trans.length) {
-                console.log(content)
                 setBalance(true)
                 setUserAmount('')
                 setDescription('')

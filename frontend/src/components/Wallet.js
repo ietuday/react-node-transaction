@@ -22,16 +22,11 @@ export function Wallet() {
                 },
                 body: JSON.stringify({ name: userName, balance })
             });
-            console.log("rawResponse", rawResponse)
             const content = await rawResponse.json();
-            console.log("constent", rawResponse)
-            //console.log("constent",content)
             if (rawResponse.status === 200) {
-                
                 localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
                 setUserName('')
                 setbalance('')
-                console.log("before nevigation")
                 navigate('/transactions', { replace: true });
             } else {
                 setUserName('')
