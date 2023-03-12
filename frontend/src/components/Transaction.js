@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 
@@ -8,6 +8,7 @@ export default function Transaction() {
     const [amount, setUserAmount] = useState("");
     const [description, setDescription] = useState("");
     const [disableBalance, setBalance] = useState(false);
+    const [balance, setWalletBalance] = useState(0);
     const formHandler = async (ev) => {
         const wallet = JSON.parse(localStorage.getItem("walletId"));
         // console.log("walletttttt",JSON.parse(wallet))
@@ -29,6 +30,7 @@ export default function Transaction() {
                 setBalance(true)
                 setUserAmount('')
                 setDescription('')
+                setWalletBalance(content.trans[0].balance.$numberDecimal)
                 //navigate('/transactions', { replace: true });
             }
 
@@ -64,10 +66,14 @@ export default function Transaction() {
                   
                     { disableBalance ?  <div className="card text-center">
                         <div className="card-header bg-success text-white">
-                            <h4>UBL Account Balance</h4>
-                            <h1>Rs. 27000</h1>
+                            <h4>Transaction Done Successfully!</h4>
+                            <h5>Wallet Available Balance</h5>
+                            <h5>Rs. {balance}/-</h5>
                         </div>
-                    </div> : null }  
+                        <hr></hr>
+                        <Link to="/transactions" className="btn btn-dark">Go To TransactionList &rarr;</Link>
+                    </div>  
+                    : null }  
                    
                 </div>
             </div>
