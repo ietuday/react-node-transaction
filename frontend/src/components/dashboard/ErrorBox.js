@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-class Dashboard extends Component {
-  render() {
+const ErrorBox= ()=> {
+
     return (
       <div>
             <div className="projects">
@@ -67,7 +67,7 @@ class Dashboard extends Component {
     </div>
       </div>
     )
-  }
+  
 }
 
 export default Dashboard

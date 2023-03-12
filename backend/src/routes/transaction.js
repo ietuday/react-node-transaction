@@ -53,7 +53,7 @@ router.get('/transactions', async function (req, res) {
                 { "wallet": mongoose.Types.ObjectId(req.query.walletId) }, {}, paginations
             )
             .populate('wallet')
-            .sort('created_at DESC')
+            .sort({'createdAt':-1})
             .session(session)
         const transactionCount = await Transaction.count({ "wallet": mongoose.Types.ObjectId(req.query.walletId)})
         resp = {transactionCount, transactionList };

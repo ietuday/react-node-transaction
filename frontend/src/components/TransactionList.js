@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink} from "react-csv";
 import { Link } from 'react-router-dom';
 export default function TransactionList() {
   const [transactionList, setTransactionList] = useState([]);
   const [fullTransactionList, setFullTransactionList] = useState([]);
   const [transactionCount, setTransactionCount] = useState(0);
   const [pageNumber, setpageNumber] = useState(1);
-  const [order, setOrder] = useState("ASC")
+  const [order, setOrder] = useState("ASC");
+  const [nextPage, setNextPage] = useState(false);
+  const [balance, setBalance] = useState(0);
   useEffect(() => {
     loadDataOnlyOnce();
     loadTransactionList()
   }, []);
 
-
+console.log("pageNumber",pageNumber)
   const loadDataOnlyOnce = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
     const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=0&limit=10`, {
@@ -48,24 +50,21 @@ export default function TransactionList() {
          return { amount :item.amount.$numberDecimal, balance : item.balance.$numberDecimal,
           createdAt :item. createdAt,  description:item.description, type :item.type }
           })
-
+          setBalance(transactionList[0].balance)
       setFullTransactionList(transactionList)
       
 
     }
-  }
-  const toJSONLocal = (date) => {
-    var local = new Date(date);
-    local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return local.toJSON().slice(0, 10);
   }
 
 
   const handleNextClick = async () => {
     console.log("Next");
     if (pageNumber + 1 > Math.ceil(transactionCount / 10)) {
+      
     }
     else {
+     
       const wallet = JSON.parse(localStorage.getItem("walletId"));
       const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
         method: 'GET',
@@ -78,6 +77,8 @@ export default function TransactionList() {
       console.log("contenttt", content)
       setTransactionList(content.transactionList)
       setpageNumber(pageNumber + 1)
+      if(Math.ceil(transactionCount / ((pageNumber + 1) * 10)) < 1)setNextPage(true)
+      
     }
   }
 
@@ -119,7 +120,7 @@ export default function TransactionList() {
 
   const handlePrevClick = async () => {
     console.log("Previous");
-
+    setNextPage(false)
     const wallet = JSON.parse(localStorage.getItem("walletId"));
     const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
       method: 'GET',
@@ -154,8 +155,8 @@ export default function TransactionList() {
       <br />
       <div className="card text-center">
         <div className="card-header bg-success text-white">
-          <h4>UBL Account Balance</h4>
-          <h1>Rs. 27000</h1>
+          <h4>Available Wallet Balance</h4>
+          <h1>Rs. {balance}/-</h1>
         </div>
       </div>
       <hr />
@@ -186,8 +187,9 @@ export default function TransactionList() {
         </tbody>
       </table>
       <div className="container d-flex justify-content-between">
-        <button type="button" className="btn btn-dark" onClick={handlePrevClick}> &larr; Previous</button>
-        <button type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
+        
+        <button disabled={pageNumber<=1} type="button" className="btn btn-dark" onClick={handlePrevClick}> &larr; Previous</button>
+        <button disabled={nextPage} type="button" className="btn btn-dark" onClick={handleNextClick}>Next &rarr;</button>
       </div>
       {/* { <!-- Transactions ENDS HERE --> } */}
     </div></div>
