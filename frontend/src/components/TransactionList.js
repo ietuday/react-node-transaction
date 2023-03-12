@@ -43,8 +43,13 @@ export default function TransactionList() {
     const content = await rawResponse.json();
     console.log("contenttt", content)
     if (rawResponse.status === 200 && Array.isArray(content.transactionList) && content.transactionList.length) {
-      console.log(content)
-      setFullTransactionList(content.transactionList)
+      console.log("full list",content)
+    const transactionList =  content.transactionList.map((item) => {
+         return { amount :item.amount.$numberDecimal, balance : item.balance.$numberDecimal,
+          createdAt :item. createdAt,  description:item.description, type :item.type }
+          })
+
+      setFullTransactionList(transactionList)
       
 
     }
@@ -132,25 +137,12 @@ export default function TransactionList() {
 
 
 
-  const downloadCSV = async () => {
-    console.log("Previous");
-
-    const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-    const content = await rawResponse.json();
-    console.log("contenttt", content)
-    setTransactionList(content.transactionList)
-    setpageNumber(pageNumber - 1)
-
-  }
+  
+  
   return (
     <div>    <div className="container">
+      
+      <div className="container d-flex justify-content-between">
       <Link to="/welcome" className="btn btn-default btn-lg mb-3" style={{'margin': '1vw'}}>
         Back
       </Link>
@@ -158,6 +150,7 @@ export default function TransactionList() {
         <i className="fas fa-plus-circle"> Record new Transaction</i>
       </Link>
       <button type="button" className="btn btn-info btn-lg mb-3" style={{'margin': '1vw'}}><CSVLink data={fullTransactionList}  filename={`Transactions.csv`}>Download</CSVLink></button>
+      </div>
       <br />
       <div className="card text-center">
         <div className="card-header bg-success text-white">
