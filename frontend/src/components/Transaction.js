@@ -6,7 +6,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import ReactSwitch from 'react-switch';
 
 export default function Transaction() {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [amount, setUserAmount] = useState("");
     const [description, setDescription] = useState("");
     const [disableBalance, setBalance] = useState(false);
