@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
+import Swal from 'sweetalert2'
 
 
 import ReactSwitch from 'react-switch';
@@ -51,13 +51,20 @@ export default function Transaction() {
                 body: JSON.stringify({ amount: amountData, description })
             });
             const content = await rawResponse.json();
-            if (rawResponse.status === 200 && Array.isArray(content.trans) && content.trans.length) {
+            if (rawResponse.status !== 200 && Array.isArray(content.trans) && content.trans.length) {
                 console.log(content)
                 setBalance(true)
                 setUserAmount('')
                 setDescription('')
                 setWalletBalance(content.trans[0].balance.$numberDecimal)
                 //navigate('/transactions', { replace: true });
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                  })
             }
 
         }
