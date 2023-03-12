@@ -14,7 +14,7 @@ export function Wallet() {
             alert('Please fill in all fields')
         }
         else {
-            const rawResponse = await fetch('https://wild-gold-macaw-veil.cyclic.app/setup', {
+            const rawResponse = await fetch('https://chocolate-hermit-crab-coat.cyclic.app/setup', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

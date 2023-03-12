@@ -41,7 +41,7 @@ export default function Transaction() {
             if (credit === 'Debit') {
                 amountData = -Math.abs(amount)
             }
-            const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transact/${wallet}`, {
+            const rawResponse = await fetch(`https://chocolate-hermit-crab-coat.cyclic.app/transact/${wallet}`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

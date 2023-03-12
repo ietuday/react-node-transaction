@@ -18,7 +18,7 @@ export default function TransactionList() {
 
   const loadDataOnlyOnce = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=0&limit=10`, {
+    const rawResponse = await fetch(`https://chocolate-hermit-crab-coat.cyclic.app/transactions?walletId=${wallet}&skip=0&limit=10`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -41,7 +41,7 @@ export default function TransactionList() {
   }
   const loadTransactionList = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}`, {
+    const rawResponse = await fetch(`https://chocolate-hermit-crab-coat.cyclic.app/transactions?walletId=${wallet}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -71,7 +71,7 @@ export default function TransactionList() {
     else {
 
       const wallet = JSON.parse(localStorage.getItem("walletId"));
-      const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
+      const rawResponse = await fetch(`https://chocolate-hermit-crab-coat.cyclic.app/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -121,7 +121,7 @@ export default function TransactionList() {
   const handlePrevClick = async () => {
     setNextPage(false)
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
+    const rawResponse = await fetch(`https://chocolate-hermit-crab-coat.cyclic.app/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
