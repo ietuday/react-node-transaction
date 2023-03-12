@@ -6,7 +6,7 @@ import Welcome from './components/Welcome';
 import {Wallet} from './components/Wallet';
 import TransactionList from './components/TransactionList';
 import Transaction from './components/Transaction'
-import { BrowserRouter, Route, Routes, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Routes} from 'react-router-dom'
 function App() {
   return (
     <BrowserRouter>

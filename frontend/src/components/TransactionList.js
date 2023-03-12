@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CSVLink} from "react-csv";
 import { Link } from 'react-router-dom';
+import ErrorBox from './shared/ErrorBox'
 export default function TransactionList() {
   const [transactionList, setTransactionList] = useState([]);
   const [fullTransactionList, setFullTransactionList] = useState([]);
@@ -9,6 +10,7 @@ export default function TransactionList() {
   const [order, setOrder] = useState("ASC");
   const [nextPage, setNextPage] = useState(false);
   const [balance, setBalance] = useState(0);
+ 
   useEffect(() => {
     loadDataOnlyOnce();
     loadTransactionList()
@@ -31,7 +33,7 @@ console.log("pageNumber",pageNumber)
       setTransactionList(content.transactionList)
       setTransactionCount(content.transactionCount)
 
-    }
+    } 
   }
   const loadTransactionList = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
@@ -141,8 +143,8 @@ console.log("pageNumber",pageNumber)
   
   
   return (
+   
     <div>    <div className="container">
-      
       <div className="container d-flex justify-content-between">
       <Link to="/welcome" className="btn btn-default btn-lg mb-3" style={{'margin': '1vw'}}>
         Back
