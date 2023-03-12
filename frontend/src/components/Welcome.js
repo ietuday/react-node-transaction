@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 class Welcome extends Component {
   render() {
+    const wallet = JSON.parse(localStorage.getItem("walletId"));
     return (
       <div>
     <div className="landing">
@@ -15,9 +16,16 @@ class Welcome extends Component {
                         </p>
                         <hr />
                         <div className="col-md-12 text-center">
-                        <Link to="/wallet" className="btn btn-lg btn-primary mr-60" style={{'margin': '1vw'}}>
-                            Create Wallet
-                        </Link>
+                        {
+                          !wallet
+                          ?
+                          <Link to="/wallet" className="btn btn-lg btn-primary mr-60" style={{'margin': '1vw'}}>
+                          Create Wallet
+                          </Link>
+                          :
+                          null
+                        }
+                        
                         <Link to="/transactions" className="btn btn-lg btn-secondary ml-80">
                             Wallet Transactions 
                         </Link>
