@@ -19,7 +19,7 @@ export default function TransactionList() {
 console.log("pageNumber",pageNumber)
   const loadDataOnlyOnce = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=0&limit=10`, {
+    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=0&limit=10`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -44,7 +44,7 @@ console.log("pageNumber",pageNumber)
   }
   const loadTransactionList = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}`, {
+    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -75,7 +75,7 @@ console.log("pageNumber",pageNumber)
     else {
      
       const wallet = JSON.parse(localStorage.getItem("walletId"));
-      const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
+      const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${pageNumber * 10}&limit=10`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -131,7 +131,7 @@ console.log("pageNumber",pageNumber)
     console.log("Previous");
     setNextPage(false)
     const wallet = JSON.parse(localStorage.getItem("walletId"));
-    const rawResponse = await fetch(`http://localhost:5000/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
+    const rawResponse = await fetch(`https://wild-gold-macaw-veil.cyclic.app/transactions?walletId=${wallet}&skip=${(pageNumber - 1) * 10}&limit=10`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

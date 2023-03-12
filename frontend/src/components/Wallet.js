@@ -7,14 +7,14 @@ import { useNavigate } from 'react-router-dom';
 export function Wallet() {
     const navigate = useNavigate();
     const [userName, setUserName] = useState("");
-    const [balance, setbalance] = useState("");     
-     const formHandler = async (ev) => {
+    const [balance, setbalance] = useState("");
+    const formHandler = async (ev) => {
         ev.preventDefault();
         if (userName === '' || balance === '') {
             alert('Please fill in all fields')
         }
-         else {
-            const rawResponse = await fetch('http://localhost:5000/setup', {
+        else {
+            const rawResponse = await fetch('https://wild-gold-macaw-veil.cyclic.app/setup', {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -22,30 +22,30 @@ export function Wallet() {
                 },
                 body: JSON.stringify({ name: userName, balance })
             });
-            console.log("rawResponse",rawResponse)
+            console.log("rawResponse", rawResponse)
             const content = await rawResponse.json();
-            console.log("constent",rawResponse)
+            console.log("constent", rawResponse)
             //console.log("constent",content)
-           // localStorage.setItem("walletId", JSON.stringify(value));
-           if (rawResponse.status === 200) {
-            
-            setUserName('')
-            setbalance('')
-            console.log("before nevigation")
-            navigate('/transactions', { replace: true });
-           }else{
-            setUserName('')
-            setbalance('')
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Wallet Name already exist',
-                footer: '<a href="">Why do I have this issue?</a>'
-              })
-           }
-          
+            if (rawResponse.status === 200) {
+                
+                localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
+                setUserName('')
+                setbalance('')
+                console.log("before nevigation")
+                navigate('/transactions', { replace: true });
+            } else {
+                setUserName('')
+                setbalance('')
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Wallet Name already exist',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                })
+            }
+
         }
-        
+
     }
 
     return (
