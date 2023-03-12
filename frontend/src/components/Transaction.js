@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
 
@@ -51,7 +51,7 @@ export default function Transaction() {
                 body: JSON.stringify({ amount: amountData, description })
             });
             const content = await rawResponse.json();
-            if (rawResponse.status !== 200 && Array.isArray(content.trans) && content.trans.length) {
+            if (rawResponse.status === 200 && Array.isArray(content.trans) && content.trans.length) {
                 console.log(content)
                 setBalance(true)
                 setUserAmount('')

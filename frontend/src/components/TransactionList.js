@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { CSVLink} from "react-csv";
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2'
 export default function TransactionList() {
   const [transactionList, setTransactionList] = useState([]);
   const [fullTransactionList, setFullTransactionList] = useState([]);
@@ -32,7 +33,14 @@ console.log("pageNumber",pageNumber)
       setTransactionList(content.transactionList)
       setTransactionCount(content.transactionCount)
 
-    } 
+    } else{
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+  }
   }
   const loadTransactionList = async () => {
     const wallet = JSON.parse(localStorage.getItem("walletId"));

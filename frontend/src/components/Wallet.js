@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import Swal from 'sweetalert2'
 export function Wallet() {
     const [userName, setUserName] = useState("");
     const [balance, setbalance] = useState("");
@@ -13,7 +13,8 @@ export function Wallet() {
         ev.preventDefault();
         if (userName === '' || balance === '') {
             alert('Please fill in all fields')
-        } else {
+        }
+         else {
             const rawResponse = await fetch('http://localhost:5000/setup', {
                 method: 'POST',
                 headers: {
@@ -24,10 +25,21 @@ export function Wallet() {
             });
             const content = await rawResponse.json();
            // localStorage.setItem("walletId", JSON.stringify(value));
-           localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
+           if (content.status === 200 && Array.isArray(content.transactionList) && content.transactionList.length) {
+            localStorage.setItem("walletId", JSON.stringify(content.wallet[0]._id));
             setUserName('')
             setbalance('')
+           }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!',
+                footer: '<a href="">Why do I have this issue?</a>'
+              })
+           }
+          
         }
+        
     }
 
     return (
